@@ -1,0 +1,12 @@
+select concat(name,'(',fr,')')
+from(
+select name, Left(Occupation,1) as FR
+from Occupations)a
+order by name asc;
+select 'There are total', ct , concat(Occ,'s.')
+from
+(select count(occupation) as ct , lcase(Occupation) as occ
+from occupations
+group by occupation
+order by ct asc , occupation asc)b
+;
