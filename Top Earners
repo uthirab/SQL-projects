@@ -1,0 +1,3 @@
+select (months* salary)as high, count(*)
+from employee
+group by high desc limit 1;
