@@ -1,0 +1,28 @@
+SELECT W.ID, R.AGE, W.COINS_NEEDED , W.POWER
+FROM WANDS W 
+INNER JOIN(
+   SELECT W.CODE, MIN(P.AGE) AS AGE, MIN(W.COINS_NEEDED) AS R, W.POWER
+    FROM  WANDS W INNER JOIN WANDS_PROPERTY P
+    ON W.CODE= P.CODE WHERE  IS_EVIL=0
+GROUP BY W.CODE, W.POWER)R
+ON W.CODE = R.CODE
+    AND W.COINS_NEEDED = R.R AND
+    W.POWER = R.POWER
+ORDER BY W.POWER DESC, R.AGE DESC;
+
+
+
+SELECT id, 
+    (SELECT age FROM Wands_Property WHERE code = w.code) AS age,
+    coins_needed, 
+    power
+
+FROM Wands w
+WHERE w.code IN 
+    (SELECT code FROM Wands_Property WHERE is_evil = 0)
+AND coins_needed = 
+    (SELECT MIN(coins_needed) FROM Wands 
+     WHERE code = w.code AND power = w.power)
+
+ORDER BY power DESC, age DESC;
+
